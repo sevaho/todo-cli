@@ -3,7 +3,7 @@
 Small shell script that helps me with my todo list.
 
 ```html
-  Usage: ${0} []OPTIONS]... [ARGS]...
+  Usage: ${0} [OPTIONS]... [ARGS]...
 
   Simplifying your todo list.
 
@@ -17,6 +17,6 @@ Small shell script that helps me with my todo list.
 
   EXAMPLES:
     todo "this note will be added to the list"
-    todo --del 5 Delete the note with number 5, more correct N5.
-    todo --clean Clean will delete all your notes.
+    todo --del 5
+    todo --clean
 ```

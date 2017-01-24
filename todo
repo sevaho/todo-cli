@@ -84,7 +84,7 @@ notesclean(){
 
 usage(){
   cat << _EOF_
-  Usage: ${0} []OPTIONS]... [ARGS]...
+  Usage: ${0} [OPTIONS]... [ARGS]...
 
   Simplifying your todo list.
 
@@ -98,8 +98,8 @@ usage(){
 
   EXAMPLES:
     todo "this note will be added to the list"
-    todo --del 5 Delete the note with number 5, more correct N5.
-    todo --clean Clean will delete all your notes.
+    todo --del 5
+    todo --clean
   
 _EOF_
 }
