@@ -1,0 +1,108 @@
+#!/bin/bash
+
+#Author: Sebastiaan Van Hoecke
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+file="/home/$USER/.todo"
+
+main(){
+  check_existing
+  lines=$(tail -n1 "$file" | cut -d " " -f1 | cut -c 2-) 
+  nr=$(( lines+1 ))
+  nrr="N${nr}"
+  text=${*}
+  check_args "${@}"
+}
+
+check_existing(){
+  if [[ ! -f $file ]]  
+    then
+    echo "I'll make you a todo file in /home/$USER"
+    touch "$file"
+  fi
+}
+
+check_args(){
+  if [ $# = "0" ]  
+	  then
+    shownotes
+  else
+  case $1 in
+    "-h")
+      usage
+      ;;
+    "--help")
+      usage
+      ;;
+    "--del")
+      shift
+      notesdel "$1"
+      ;;
+    "--shownotesnotify")
+      shownotesnotify
+      ;;
+    "--clean")
+      notesclean
+      ;;
+    *)
+      notesadd "$text"
+      ;;
+  esac
+  fi
+}
+
+shownotes(){
+  echo "shownotes"
+  echo ""
+  cat "$file"
+}
+
+shownotesnotify(){
+  if [[ $lines -gt 0  ]]
+    then
+    notify-send "NOTES" "you still have things which aren't finished"      
+  fi
+}
+
+notesdel(){
+  echo "note to delete $1"
+  grep -E "^N$1" "$file"
+  sed -i.bak '/'"N$1"' /d' "$file"
+}
+
+notesadd(){
+  echo "$nrr ${*}" >> "$file"
+  notify-send 'NOTE ADDED: ' $"{text}"
+}
+
+notesclean(){
+  truncate -s 0 "$file"
+}
+
+usage(){
+  cat << _EOF_
+  Usage: ${0} []OPTIONS]... [ARGS]...
+
+  Simplifying your todo list.
+
+  OPTIONS:
+    --shownotesnotify     show if there are remaining notes as notification
+    -h, --help            display the help and exit
+    --del                 delete the note given as an argument
+    --clean               clean all notes
+    
+    no options will add your note
+
+  EXAMPLES:
+    todo "this note will be added to the list"
+    todo --del 5 Delete the note with number 5, more correct N5.
+    todo --clean Clean will delete all your notes.
+  
+_EOF_
+}
+
+main "${@}"
+
