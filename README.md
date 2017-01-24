@@ -2,7 +2,7 @@
 
 Small shell script that helps me with my todo list.
 
-```Bash
+```html
   Usage: ${0} []OPTIONS]... [ARGS]...
 
   Simplifying your todo list.
