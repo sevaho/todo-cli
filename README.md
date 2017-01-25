@@ -13,7 +13,7 @@ Small shell script that helps me with my todo list.
     --del                 delete the note given as an argument
     --clean               clean all notes
     
-    no options will add your note
+    no options will add the argument passed between "" as note
 
   EXAMPLES:
     todo "this note will be added to the list"
